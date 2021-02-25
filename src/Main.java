@@ -20,28 +20,28 @@ public class Main {
 				System.out.println("Pulsa 5 para realizar inserciones, 6 para buscar, y 7 para modificar");
 				operation = scanner.nextInt();
 			} else if (table == 4) {
-				System.out.println("Adios");
+				System.out.println("Menu cerrado");
 //				break;
 			} else {
 				scanner.close();
 				throw new Exception("Número erróneo");
 			}
-			if (operation < 4 || operation > 13) {
+			if (operation < 4 || operation > 15) {
 				scanner.close();
 				throw new Exception("Número de opción erróneo");
 			} else if (operation == 4) {
-				System.out.println("adios");
+				System.out.println("Menu cerrado");
 //				break;
 			} else {
 				switch (table) {
 				case 1:
-					Option1.case1(operation);
+					MenuClte.case1(operation);
 					break;
 				case 2:
-					Option2.case2(operation);
+					MenuVehiculo.case2(operation);
 					break;
 				case 3:
-					Option3.case3(operation);
+					MenuRep.case3(operation);
 					break;
 				default:
 					break;

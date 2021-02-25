@@ -2,8 +2,9 @@ import java.util.Scanner;
 
 import Beans.Cliente;
 import operaciones.OpClientes;
+import operaciones.OpReparaciones;
 
-public class Option1 {
+public class MenuClte {
 
 	public static void case1(int operation) {
 		OpClientes opcliente = new OpClientes();
@@ -27,7 +28,7 @@ public class Option1 {
 			opcliente.insertarClientes(clte);
 			break;
 		case 6:
-			System.out.println("Inserta 11 para buscar por DNI y 12 para para buscar por nombre y apellido");
+			System.out.println("Inserta 11 para buscar por DNI, 12 para para buscar por nombre y apellido,\n 13 para ver los 10 clientes con más reparaciones y 14 para ver los cliente ordenador por edad");
 			int buscar = scanner.nextInt();
 			switch (buscar) {
 			case 11:
@@ -42,6 +43,14 @@ public class Option1 {
 				System.out.println("inserte los apellidos del cliente a buscar");
 				apellidos = scanner.nextLine();
 				System.out.println(opcliente.consultarPorNombreYApellidos(nombre, apellidos));
+				break;
+			case 13:
+				OpReparaciones oprep =new OpReparaciones();
+				System.out.println("Los 10 clientes con más reparaciones son"+oprep.clientesConMasReparaciones());
+				break;
+			case 14:
+				System.out.println("Los clientes ordenados por edad son:");
+				System.out.println(opcliente.cltesOrdenadosPorEdad());
 				break;
 			default:
 				break;

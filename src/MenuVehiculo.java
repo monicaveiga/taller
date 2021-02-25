@@ -3,7 +3,7 @@ import java.util.Scanner;
 import Beans.Vehiculo;
 import operaciones.OpVehiculos;
 
-public class Option2 {
+public class MenuVehiculo {
 	public static void case2(int operation) {
 		Scanner scanner = new Scanner(System.in);
 		OpVehiculos opv = new OpVehiculos();

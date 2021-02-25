@@ -5,7 +5,7 @@ import java.util.Scanner;
 import Beans.Reparacion;
 import operaciones.OpReparaciones;
 
-public class Option3 {
+public class MenuRep {
 public static void case3(int operation) {
 	Scanner scanner = new Scanner(System.in);
 	OpReparaciones opr = new OpReparaciones();
@@ -36,7 +36,7 @@ public static void case3(int operation) {
 		break;
 	case 6:
 		System.out.println(
-				"Inserta 11 para buscar por cliente, 12 para para buscar por matricula, y 13 para buscar por la fecha de la reparacion");
+				"Inserta 11 para buscar por cliente, 12 para para buscar por matricula, 13 para buscar por la fecha de la reparacion,\n 14 para ver la reparación más barata, y 15 para ver la más cara");
 		int buscar = scanner.nextInt();
 		switch (buscar) {
 		case 11:
@@ -53,6 +53,14 @@ public static void case3(int operation) {
 			System.out.println("inserte la fecha de la reparacion a buscar");
 			String fechaS = scanner.next();
 			System.out.println(opr.buscarPorFecha(fechaS));
+			break;
+		case 14:
+			System.out.println("La repación más barata es:");
+			System.out.println(opr.reparacionMasBarata());
+			break;
+		case 15:
+			System.out.println("La repación más costosa es:");
+			System.out.println(opr.reparacionMasCostosa());
 			break;
 		default:
 			break;
