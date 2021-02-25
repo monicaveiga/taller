@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 import Beans.Vehiculo;
+import operaciones.OpFicheros;
 import operaciones.OpVehiculos;
 
 public class MenuVehiculo {
@@ -78,6 +79,15 @@ public class MenuVehiculo {
 			System.out.println("inserte la matricula del vehiculo a borrar");
 			matricula = scanner.next();
 			opv.eliminarVehiculos(matricula);
+			break;
+		case 9:
+			OpFicheros opf1 = new OpFicheros();
+			opf1.guardarVehiculos();
+			System.out.println("Datos de los vehículos guardados correctamente.");
+			break;
+		case 10:
+			OpFicheros opf = new OpFicheros();
+			opf.cargarVehiculos();
 			break;
 		default:
 			scanner.close();

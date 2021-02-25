@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 import Beans.Cliente;
 import operaciones.OpClientes;
+import operaciones.OpFicheros;
 import operaciones.OpReparaciones;
 
 public class MenuClte {
@@ -75,6 +76,15 @@ public class MenuClte {
 			dni = scanner.nextLine();
 			opcliente.eliminar(dni);
 			System.out.println("lista de clientes tras la modificacion: " + opcliente.verClientes());
+			break;
+		case 9:
+			OpFicheros opf1 = new OpFicheros();
+			opf1.guardarClientes();
+			System.out.println("Datos de los clientes guardados correctamente.");
+			break;
+		case 10:
+			OpFicheros opf = new OpFicheros();
+			opf.cargarClientes();
 			break;
 		default:
 			scanner.close();

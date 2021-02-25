@@ -3,6 +3,7 @@ import java.sql.Time;
 import java.util.Scanner;
 
 import Beans.Reparacion;
+import operaciones.OpFicheros;
 import operaciones.OpReparaciones;
 
 public class MenuRep {
@@ -82,6 +83,15 @@ public static void case3(int operation) {
 		totalReparacion = scanner.nextDouble();
 		r = new Reparacion(cliente, vehiculo, descripcion, fecha, tiempo, totalReparacion);
 		opr.modificarReparacion(r);
+		break;
+	case 8:
+		OpFicheros opf = new OpFicheros();
+		opf.guardarReparaciones();
+		System.out.println("Datos de las reparaciones guardadas correctamente.");
+		break;
+	case 9:
+		OpFicheros opf1 = new OpFicheros();
+		opf1.cargarReparaciones();
 		break;
 	default:
 		scanner.close();

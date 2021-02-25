@@ -14,17 +14,18 @@ import Beans.Vehiculo;
 public class OpFicheros {
 	public static void main(String[] args) {
 	OpFicheros fi = new OpFicheros();
-	fi.escribirClientes();
-	fi.escribirReparaciones();
-	fi.escribirVehiculos();
-	fi.leerClientes();
-	fi.leerReparaciones();
+//	fi.escribirClientes();
+//	fi.escribirReparaciones();
+//	fi.escribirVehiculos();
+	fi.guardarClientes();
+//	fi.leerReparaciones();
+	fi.guardarReparaciones();
 	}
 	OpClientes opc = new OpClientes();
 	OpReparaciones opr = new OpReparaciones();
 	OpVehiculos opv = new OpVehiculos();
 
-	public void leerClientes() {
+	public void guardarClientes() {
 		FileInputStream in = null;
 		byte[] buffer = new byte[4096];
 		try {
@@ -36,12 +37,11 @@ public class OpFicheros {
 			ObjectInputStream leerObj = new ObjectInputStream(in);
 			ArrayList<Cliente> cltes= (ArrayList<Cliente>) leerObj.readObject();
 			leerObj.close();
-			System.out.println(cltes.toString());
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 	}
-	public void leerVehiculos() {
+	public void guardarVehiculos() {
 		FileInputStream in = null;
 		byte[] buffer = new byte[4096];
 		try {
@@ -58,7 +58,7 @@ public class OpFicheros {
 			// TODO: handle exception
 		}
 	}
-	public void leerReparaciones() {
+	public void guardarReparaciones() {
 		FileInputStream in = null;
 		byte[] buffer = new byte[4096];
 		try {
@@ -70,12 +70,11 @@ public class OpFicheros {
 			ObjectInputStream leerObj = new ObjectInputStream(in);
 			ArrayList<Reparacion> reps= (ArrayList<Reparacion>) leerObj.readObject();
 			leerObj.close();
-			System.out.println(reps.toString());
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 	}
-	public void escribirClientes() {
+	public void cargarClientes() {
 		byte[] buffer = new byte[4096];
 		try {
 			FileOutputStream escribirCltes= new FileOutputStream("datosCltes.txt");
@@ -89,7 +88,7 @@ public class OpFicheros {
 		}
 	}
 
-	public void escribirVehiculos() {
+	public void cargarVehiculos() {
 		byte[] buffer = new byte[4096];
 		try {
 			FileOutputStream escribirVehiculos = new FileOutputStream("datosVehiculos.txt");
@@ -102,7 +101,7 @@ public class OpFicheros {
 			e.printStackTrace();
 		}
 	}
-	public void escribirReparaciones() {
+	public void cargarReparaciones() {
 		byte[] buffer = new byte[4096];
 		try {
 			FileOutputStream escribirReps= new FileOutputStream("datosReps.txt");
