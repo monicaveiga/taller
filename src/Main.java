@@ -10,7 +10,8 @@ public class Main {
 		Scanner scanner = new Scanner(System.in);
 		do {
 			System.out.println(
-					"Pulsa 1 si quieres trabajar con clientes, 2 si quieres trabajar con vehículos, 3 para reparaciones y 4 para salir en cualquier momento");
+					"Pulsa 1 para administrar clientes, 2 para administrar vehículos, 3 para reparaciones, "
+					+ "\n16 para guardar los datos existentes, 17 para cargarlos y 4 para salir de la aplicación en cualquier momento");
 			table = scanner.nextInt();
 			if (table == 1 || table == 2) {
 				System.out
@@ -22,16 +23,19 @@ public class Main {
 			} else if (table == 4) {
 				System.out.println("Menu cerrado");
 //				break;
-			} else {
+			}else if(table == 15) { 
+				
+			}else if(table == 16) {
+			
+			}else {
 				scanner.close();
 				throw new Exception("Número erróneo");
 			}
-			if (operation < 4 || operation > 15) {
+			if (operation < 4 || operation > 17) {
 				scanner.close();
 				throw new Exception("Número de opción erróneo");
 			} else if (operation == 4) {
 				System.out.println("Menu cerrado");
-//				break;
 			} else {
 				switch (table) {
 				case 1:
