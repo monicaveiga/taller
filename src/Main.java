@@ -5,12 +5,12 @@ public class Main {
 //		Cliente manolo = new Cliente("6666666K", "Manolo", "Gómez García", 22);
 //		Cliente jimena = new Cliente("22222222L", "Jimena", "López López", 30);
 //		Cliente manuel = new Cliente("5666666J", "Manuel", "Pereira Torre", 22);
-		Scanner scanner = new Scanner(System.in);
 		int table = 0;
 		int operation = 0;
+		Scanner scanner = new Scanner(System.in);
 		do {
 			System.out.println(
-					"Pulsa 1 si quieres trabajar con clientes, 2 si quieres trabajar con vehículos y 3 para reparaciones");
+					"Pulsa 1 si quieres trabajar con clientes, 2 si quieres trabajar con vehículos, 3 para reparaciones y 4 para salir en cualquier momento");
 			table = scanner.nextInt();
 			if (table == 1 || table == 2) {
 				System.out
@@ -21,21 +21,34 @@ public class Main {
 				operation = scanner.nextInt();
 			} else if (table == 4) {
 				System.out.println("Adios");
-				break;
+//				break;
 			} else {
 				scanner.close();
 				throw new Exception("Número erróneo");
 			}
-			if (operation < 4 || operation > 8) {
+			if (operation < 4 || operation > 13) {
 				scanner.close();
 				throw new Exception("Número de opción erróneo");
 			} else if (operation == 4) {
 				System.out.println("adios");
-				break;
+//				break;
 			} else {
-				MenuOptions.menuOptions(table, operation);
-				scanner.close();
+				switch (table) {
+				case 1:
+					Option1.case1(operation);
+					break;
+				case 2:
+					Option2.case2(operation);
+					break;
+				case 3:
+					Option3.case3(operation);
+					break;
+				default:
+					break;
+				}
 			}
+
 		} while (table != 4 && operation != 4);
+		scanner.close();
 	}
 }
