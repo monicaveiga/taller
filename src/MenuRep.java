@@ -3,13 +3,14 @@ import java.sql.Time;
 import java.util.Scanner;
 
 import Beans.Reparacion;
+import DAO.ReparacionDAO;
 import operaciones.OpFicheros;
-import operaciones.OpReparaciones;
 
 public class MenuRep {
 public static void case3(int operation) {
 	Scanner scanner = new Scanner(System.in);
-	OpReparaciones opr = new OpReparaciones();
+//	OpReparaciones opr = new OpReparaciones();
+	ReparacionDAO rdao = new ReparacionDAO();
 	String cliente = null;
 	String vehiculo = null;
 	String descripcion = null;
@@ -33,7 +34,7 @@ public static void case3(int operation) {
 		System.out.println("inserte el total de la reparacion");
 		totalReparacion = scanner.nextDouble();
 		r = new Reparacion(cliente, vehiculo, descripcion, fecha, tiempo, totalReparacion);
-		opr.insertarReparacion(r);
+		rdao.insertarReparacion(r);
 		break;
 	case 6:
 		System.out.println(
@@ -43,25 +44,25 @@ public static void case3(int operation) {
 		case 11:
 			System.out.println("inserte el dni del cliente de la reparacion a buscar");
 			cliente = scanner.next();
-			System.out.println(opr.buscarPorCliente(cliente));
+			System.out.println(rdao.buscarPorCliente(cliente));
 			break;
 		case 12:
 			System.out.println("inserte la matricula del vehiculo de la reparacion a buscar");
 			vehiculo = scanner.next();
-			System.out.println(opr.buscarPorVehiculo(vehiculo));
+			System.out.println(rdao.buscarPorVehiculo(vehiculo));
 			break;
 		case 13:
 			System.out.println("inserte la fecha de la reparacion a buscar");
 			String fechaS = scanner.next();
-			System.out.println(opr.buscarPorFecha(fechaS));
+			System.out.println(rdao.buscarPorFecha(fechaS));
 			break;
 		case 14:
 			System.out.println("La repación más barata es:");
-			System.out.println(opr.reparacionMasBarata());
+			System.out.println(rdao.reparacionMasBarata());
 			break;
 		case 15:
 			System.out.println("La repación más costosa es:");
-			System.out.println(opr.reparacionMasCostosa());
+			System.out.println(rdao.reparacionMasCostosa());
 			break;
 		default:
 			break;
@@ -82,7 +83,7 @@ public static void case3(int operation) {
 		System.out.println("inserte el total de la reparacion");
 		totalReparacion = scanner.nextDouble();
 		r = new Reparacion(cliente, vehiculo, descripcion, fecha, tiempo, totalReparacion);
-		opr.modificarReparacion(r);
+		rdao.modificarReparacion(r);
 		break;
 	case 8:
 		OpFicheros opf = new OpFicheros();

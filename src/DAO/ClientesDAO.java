@@ -159,4 +159,9 @@ public class ClientesDAO {
 //		clist.stream().map(f -> f.toString()).collect(Collectors.toList());
 //		System.out.println(clist.stream().map(f->f.toString()).collect(Collectors.toList()));
 	}
+
+	public char[] cltesOrdenadosPorEdad() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

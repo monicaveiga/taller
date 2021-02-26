@@ -1,13 +1,14 @@
 import java.util.Scanner;
 
 import Beans.Vehiculo;
+import DAO.VehiculoDAO;
 import operaciones.OpFicheros;
-import operaciones.OpVehiculos;
 
 public class MenuVehiculo {
 	public static void case2(int operation) {
 		Scanner scanner = new Scanner(System.in);
-		OpVehiculos opv = new OpVehiculos();
+//		OpVehiculos opv = new OpVehiculos();
+		VehiculoDAO vdao = new VehiculoDAO();
 		String modelo = null;
 		String matricula = null;
 		String marca = null;
@@ -28,7 +29,7 @@ public class MenuVehiculo {
 			scanner.nextLine();
 			color = scanner.nextLine();
 			v = new Vehiculo(matricula, modelo, marca, año, color);
-			opv.insertarVehiculos(v);
+			vdao.insertarVehiculos(v);
 			break;
 		case 6:
 			System.out.println(
@@ -38,22 +39,22 @@ public class MenuVehiculo {
 			case 11:
 				System.out.println("inserte la matricula del vehiculo a buscar");
 				matricula = scanner.next();
-				System.out.println(opv.buscarPorMatricula(matricula));
+				System.out.println(vdao.buscarPorMatricula(matricula));
 				break;
 			case 12:
 				System.out.println("inserte la marca o el modelo del vehiculo a buscar");
 				String marcaOModelo = scanner.next();
-				System.out.println(opv.buscarPorMarcaOModelo(marcaOModelo));
+				System.out.println(vdao.buscarPorMarcaOModelo(marcaOModelo));
 				break;
 			case 13:
 				System.out.println("inserte la marca, el modelo o el año del vehiculo a buscar");
 				String marcaModeloOAño = null;
 				if (scanner.hasNext()) {
 					marcaModeloOAño = scanner.next();
-					System.out.println(opv.buscarPorMarcaModeloOAño(marcaModeloOAño));
+					System.out.println(vdao.buscarPorMarcaModeloOAño(marcaModeloOAño));
 				} else if (scanner.hasNextInt()) {
 					año = scanner.nextInt();
-					System.out.println(opv.buscarPorMarcaModeloOAño(año));
+					System.out.println(vdao.buscarPorMarcaModeloOAño(año));
 				}
 				break;
 			default:
@@ -73,12 +74,12 @@ public class MenuVehiculo {
 			scanner.nextLine();
 			color = scanner.nextLine();
 			v = new Vehiculo(matricula, modelo, marca, año, color);
-			opv.modificarVehiculos(v);
+			vdao.modificarVehiculos(v);
 			break;
 		case 8:
 			System.out.println("inserte la matricula del vehiculo a borrar");
 			matricula = scanner.next();
-			opv.eliminarVehiculos(matricula);
+			vdao.eliminarVehiculos(matricula);
 			break;
 		case 9:
 			OpFicheros opf1 = new OpFicheros();
