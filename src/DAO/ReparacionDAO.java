@@ -28,62 +28,77 @@ public class ReparacionDAO {
             ps.setDouble(6, reparacion.getTotalReparacion());
             ps.execute();
             ps.close();
-            System.out.println("Vehiculo añadido con éxito");
+            System.out.println("Reparacion añadida con éxito");
         } catch (SQLException e) {
-            System.out.println("Error al añadir vehículo" + e.getMessage());
+            System.out.println("Error al añadir reparacion" + e.getMessage());
             e.printStackTrace();
         }
     }
-    public Reparacion buscarPorCliente(String cliente){
-        Reparacion r = null;
-        try {
-            this.conn= DBConnection.getConnection();
-            Statement statement = conn.createStatement();
-            ResultSet res = statement.executeQuery("SELECT * FROM reparacion WHERE cliente = " + "'"+cliente+"'");
-            while(res.next()) {
-                r = new Reparacion(res.getString("cliente"), res.getString("vehiculo"), res.getString("descripcion"), res.getDate("fecha"), res.getTime("tiempo"), res.getDouble("totalReparacion"));
-            }
-            res.close();
-            statement.close();
-        } catch (SQLException e) {
-            System.out.println("Error en la base de datos ReparacionDAP: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return r;
+    public List<Reparacion> buscarPorCliente(String cliente){
+    	String sql = "SELECT * FROM reparacion WHERE cliente = " + "'" + cliente + "'" + " ORDER BY fecha";
+		List<Reparacion> reparaciones = new ArrayList<Reparacion>();
+		try {
+			this.conn = DBConnection.getConnection();
+			Statement statement = conn.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				Reparacion r = new Reparacion();
+				r.setFecha(Date.valueOf(rs.getString(1)));
+				reparaciones.add(r);
+			}
+			statement.close();
+			rs.close();
+			rs.close();
+			statement.close();
+		} catch (SQLException e) {
+			System.out.println("Error en la base de datos ReparacionDAO: " + e.getMessage());
+			e.printStackTrace();
+		}
+		return reparaciones;
     }
-    public Reparacion buscarPorVehiculo(String vehiculo){
-        Reparacion r = null;
-        try {
-            this.conn= DBConnection.getConnection();
-            Statement statement = conn.createStatement();
-            ResultSet res = statement.executeQuery("SELECT * FROM reparacion WHERE vehiculo = " + "'"+vehiculo+"'");
-            while(res.next()) {
-                r = new Reparacion(res.getString("cliente"), res.getString("vehiculo"), res.getString("descripcion"), res.getDate("fecha"), res.getTime("tiempo"), res.getDouble("totalReparacion"));
-            }
-            res.close();
-            statement.close();
-        } catch (SQLException e) {
-            System.out.println("Error en la base de datos ReparacionDAP: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return r;
+    public List<Reparacion> buscarPorVehiculo(String vehiculo){
+    	String sql = "SELECT * FROM reparacion WHERE vehiculo = " + "'" + vehiculo + "'" + " ORDER BY fecha";
+		List<Reparacion> reparaciones = new ArrayList<Reparacion>();
+		try {
+			this.conn = DBConnection.getConnection();
+			Statement statement = conn.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				Reparacion r = new Reparacion();
+				r.setFecha(Date.valueOf(rs.getString(1)));
+				reparaciones.add(r);
+			}
+			statement.close();
+			rs.close();
+			rs.close();
+			statement.close();
+		} catch (SQLException e) {
+			System.out.println("Error en la base de datos ReparacionDAO: " + e.getMessage());
+			e.printStackTrace();
+		}
+		return reparaciones;
     }
-    public Reparacion buscarPorFecha(String fecha){
-        Reparacion r = null;
-        try {
-            this.conn= DBConnection.getConnection();
-            Statement statement = conn.createStatement();
-            ResultSet res = statement.executeQuery("SELECT * FROM reparacion WHERE fecha = " + "'"+Date.valueOf(fecha)+"'");
-            while(res.next()) {
-                r = new Reparacion(res.getString("cliente"), res.getString("vehiculo"), res.getString("descripcion"), res.getDate("fecha"), res.getTime("tiempo"), res.getDouble("totalReparacion"));
-            }
-            res.close();
-            statement.close();
-        } catch (SQLException e) {
-            System.out.println("Error en la base de datos ReparacionDAP: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return r;
+    public List<Reparacion> buscarPorFecha(String fecha){
+            String sql = "SELECT * FROM reparacion WHERE fecha = " + "'"+Date.valueOf(fecha)+"'" + " ORDER BY fecha";
+    		List<Reparacion> reparaciones = new ArrayList<Reparacion>();
+    		try {
+    			this.conn = DBConnection.getConnection();
+    			Statement statement = conn.createStatement();
+    			ResultSet rs = statement.executeQuery(sql);
+    			while (rs.next()) {
+    				Reparacion r = new Reparacion();
+    				r.setFecha(Date.valueOf(rs.getString(1)));
+    				reparaciones.add(r);
+    			}
+    			statement.close();
+    			rs.close();
+    			rs.close();
+    			statement.close();
+    		} catch (SQLException e) {
+    			System.out.println("Error en la base de datos ReparacionDAO: " + e.getMessage());
+    			e.printStackTrace();
+    		}
+    		return reparaciones;
     }
     public List<Reparacion> verReparaciones() {
         Statement stm= null;
