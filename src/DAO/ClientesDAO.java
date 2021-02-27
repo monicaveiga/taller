@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Beans.Cliente;
+import operaciones.OpClientes;
 
 public class ClientesDAO {
 
@@ -80,7 +81,31 @@ public class ClientesDAO {
 
 		return cltes;
 	}
-
+	public List<Cliente> cltesOrdenadosPorEdad() {
+		Statement stm = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM cliente ORDER BY edad";
+		List<Cliente> cltes = new ArrayList<Cliente>();
+		try {
+			this.conn = DBConnection.getConnection();
+			stm = conn.createStatement();
+			rs = stm.executeQuery(sql);
+			while (rs.next()) {
+				Cliente c = new Cliente();
+				c.setDNI(rs.getString(1));
+				c.setNombre(rs.getString(2));
+				c.setApellidos(rs.getString(3));
+				c.setEdad(rs.getInt(4));
+				cltes.add(c);
+			}
+			stm.close();
+			rs.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return cltes;
+	}
 	public List<Cliente> verClientes() {
 		Statement stm = null;
 		ResultSet rs = null;
@@ -102,10 +127,8 @@ public class ClientesDAO {
 			rs.close();
 			conn.close();
 		} catch (SQLException e) {
-			System.out.println("Error:método obtener");
 			e.printStackTrace();
 		}
-
 		return cltes;
 	}
 
@@ -152,7 +175,8 @@ public class ClientesDAO {
 	// en la app en el main es cuando debería cerrarse conn, no en cada método creo.
 	public static void main(String args[]) {
 		ClientesDAO cltes = new ClientesDAO();
-		System.out.println(cltes.consultarPorNombreYApellidos("Jimena López López"));
+//		System.out.println(cltes.consultarPorNombreYApellidos("Jimena López López"));
+		System.out.println(cltes.cltesOrdenadosPorEdad());
 //		cltes.consultarPorDNI("22222222L");
 		//System.out.println(cltes.verClientes());
 //		List<Cliente> clist = cltes.verClientes();
@@ -160,8 +184,4 @@ public class ClientesDAO {
 //		System.out.println(clist.stream().map(f->f.toString()).collect(Collectors.toList()));
 	}
 
-	public char[] cltesOrdenadosPorEdad() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

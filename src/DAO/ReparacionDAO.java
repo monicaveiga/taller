@@ -12,6 +12,7 @@ import java.util.List;
 
 import Beans.Cliente;
 import Beans.Reparacion;
+import operaciones.OpReparaciones;
 
 public class ReparacionDAO {
 
@@ -177,25 +178,33 @@ public class ReparacionDAO {
 		return actualizar;
 	}
 
-	public Cliente clientesConMasReparaciones() {
-		Cliente clte= null;
-		String sqlQuery = "SELECT * FROM cliente as c JOIN reparacion as r on dni = cliente GROUP BY cliente ORDER BY COUNT(*) DESC LIMIT 10";
+	public List<Cliente> clientesConMasReparaciones() {
+		String sqlQuery = "SELECT * FROM cliente as c JOIN reparacion as r on c.dni = r.cliente GROUP BY cliente ORDER BY COUNT(*) DESC LIMIT 10";
+		String sqlQuery1 = "SELECT c.*, COUNT(r.cliente) AS NumReparaciones FROM cliente as c LEFT JOIN reparacion as r ON c.dni = r.cliente GROUP BY r.cliente ORDER BY NumReparaciones DESC LIMIT 10";
+		Statement stm = null;
+		ResultSet rs = null;
+		List<Cliente> cltes = new ArrayList<Cliente>();
 		try {
 			this.conn = DBConnection.getConnection();
-			Statement statement = conn.createStatement();
-			ResultSet res = statement.executeQuery(sqlQuery);
-			while (res.next()) {
-				clte = new Cliente(res.getString("DNI"), res.getString("nombre"), res.getString("apellidos"),
-						res.getInt("edad"));
+			stm = conn.createStatement();
+			rs = stm.executeQuery(sqlQuery1);
+			while (rs.next()) {
+				Cliente c = new Cliente();
+				c.setDNI(rs.getString(1));
+				c.setNombre(rs.getString(2));
+				c.setApellidos(rs.getString(3));
+				c.setEdad(rs.getInt(4));
+				cltes.add(c);
 			}
-			System.out.println(clte);
-			res.close();
-			statement.close();
+			stm.close();
+			rs.close();
+			conn.close();
 		} catch (SQLException e) {
-			System.out.println("Error en las base de datos Cliente y reparacion: " + e.getMessage());
+			System.out.println("Error:método obtener");
 			e.printStackTrace();
 		}
-		return clte;
+
+		return cltes;
 	}
 
 	public Reparacion reparacionMasBarata() {
@@ -242,11 +251,11 @@ public class ReparacionDAO {
 
 	// en la app en el main es cuando debería cerrarse conn, no en cada método creo.
 	public static void main(String args[]) {
-		Reparacion r = new Reparacion("22222222L", "JK987PJ", "Faro fundido", Date.valueOf("2021-02-24"),
-				Time.valueOf("12:00:00"), 150);
+//		Reparacion r = new Reparacion("22222222L", "JK987PJ", "Faro fundido", Date.valueOf("2021-02-24"),
+//				Time.valueOf("12:00:00"), 150);
 		ReparacionDAO re = new ReparacionDAO();
-		re.reparacionMasBarata();
-		re.clientesConMasReparaciones();
+//		re.reparacionMasBarata();
+		System.out.println(re.clientesConMasReparaciones());
 		// re.insertarReparacion(r);
 		// re.eliminarReparacion(r);
 		// re.modificarReparacion(r);
@@ -256,6 +265,11 @@ public class ReparacionDAO {
 //        List<Reparacion> rlist = re.verReparaciones();
 //        rlist.stream().map(f->f.toString()).collect(Collectors.toList());
 		// System.out.println(rlist.stream().map(f->f.toString()).collect(Collectors.toList()));
+//		OpReparaciones opr= new OpReparaciones();
+//		for (Reparacion rep : opr.verReparaciones()) {
+//			re.insertarReparacion(rep);
+//		}
+//		re.verReparaciones();
 	}
 
 }

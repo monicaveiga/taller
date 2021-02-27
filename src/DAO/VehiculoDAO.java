@@ -8,7 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import Beans.Cliente;
+import Beans.Reparacion;
 import Beans.Vehiculo;
+import operaciones.OpClientes;
+import operaciones.OpReparaciones;
+import operaciones.OpVehiculos;
 
 public class VehiculoDAO {
 
@@ -237,11 +242,16 @@ public class VehiculoDAO {
 //        Vehiculo v = new Vehiculo("JK987PJ", "Hyundai", "Kona", 2019, "azul");
 		VehiculoDAO vs = new VehiculoDAO();
 		// System.out.println(vs.buscarPorMatricula("JK987PJ"));
-		System.out.println(vs.buscarPorMarcaOModelo("Hyundai"));
-		System.out.println(vs.buscarPorMarcaModeloOAño("Hyundai"));
-		System.out.println(vs.buscarPorMarcaModeloOAño("2019"));
-//        List<Vehiculo> vlist = vs.verVehiculos();
+//		System.out.println(vs.buscarPorMarcaOModelo("Hyundai"));
+//		System.out.println(vs.buscarPorMarcaModeloOAño("Hyundai"));
+//		System.out.println(vs.buscarPorMarcaModeloOAño("2019"));
+////        List<Vehiculo> vlist = vs.verVehiculos();
 //        vlist.stream().map(f->f.toString()).collect(Collectors.toList());
 		// System.out.println(vlist.stream().map(f->f.toString()).collect(Collectors.toList()));
+		OpVehiculos opv = new OpVehiculos();
+		for (Vehiculo v : opv.verVehiculos()) {
+			vs.insertarVehiculos(v);
+		}
+		vs.verVehiculos();
 	}
 }

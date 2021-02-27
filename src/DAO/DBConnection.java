@@ -5,7 +5,7 @@ import java.sql.SQLException;
 public class DBConnection {
     public static final String USER = "alumnos";
     public static final String PASS = "abc123..";
-    public static final String URL= "jdbc:mariadb://192.168.1.199/taller";
+    public static final String URL= "jdbc:mariadb://192.168.1.203/taller";
 //    private static Connection conn = null;
 
     /**
