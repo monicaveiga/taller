@@ -218,7 +218,6 @@ public class ReparacionDAO {
 				rep = new Reparacion(res.getString("cliente"), res.getString("vehiculo"), res.getString("descripcion"),
 						res.getDate("fecha"), res.getTime("tiempo"), res.getDouble("totalReparacion"));
 			}
-			System.out.println(rep);
 			res.close();
 			statement.close();
 		} catch (SQLException e) {
@@ -239,7 +238,6 @@ public class ReparacionDAO {
 				rep = new Reparacion(res.getString("cliente"), res.getString("vehiculo"), res.getString("descripcion"),
 						res.getDate("fecha"), res.getTime("tiempo"), res.getDouble("totalReparacion"));
 			}
-			System.out.println(rep);
 			res.close();
 			statement.close();
 		} catch (SQLException e) {

@@ -42,7 +42,6 @@ public class ClientesDAO {
 				clte = new Cliente(res.getString("DNI"), res.getString("nombre"), res.getString("apellidos"),
 						res.getInt("edad"));
 			}
-			System.out.println(clte);
 			res.close();
 			statement.close();
 		} catch (SQLException e) {
