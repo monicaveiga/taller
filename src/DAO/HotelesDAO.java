@@ -15,57 +15,87 @@ public class HotelesDAO {
 
 	private Connection conn = null;
 
-	public void insertarVehiculos(Hotel vehiculo) {
+	public void insertarHotel(Hotel hotel) {
 		try {
 			this.conn = DBConnection.getConnection();
 			PreparedStatement ps = conn
 					.prepareStatement("INSERT INTO vehiculo VALUES (?, ?, ?, ?, ?,?, ?, ?, ?, ?,?, ?, ?, ?, ?)");
-			ps.setString(1, vehiculo.getNombre());
-			ps.setString(2, vehiculo.getDireccion());
-			ps.setString(3, vehiculo.getCiudad());
-			ps.setString(4, vehiculo.getRegion());
-			ps.setString(5, vehiculo.getDescripcion());
-			ps.setString(6, vehiculo.getImgD());
-			ps.setString(7, vehiculo.getImgH());
-			ps.setDouble(8, vehiculo.getPrecio());
-			ps.setShort(9, vehiculo.getEstrellas());
-			ps.setBoolean(10, vehiculo.isPiscina());
-			ps.setBoolean(11, vehiculo.isSpa());
-			ps.setBoolean(12, vehiculo.isWifi());
-			ps.setBoolean(13, vehiculo.isParking());
-			ps.setBoolean(14, vehiculo.isRecomendado());
-			ps.setInt(15, vehiculo.getDescuento());
+			ps.setString(1, hotel.getNombre());
+			ps.setString(2, hotel.getDireccion());
+			ps.setString(3, hotel.getCiudad());
+			ps.setString(4, hotel.getRegion());
+			ps.setString(5, hotel.getDescripcion());
+			ps.setString(6, hotel.getImgD());
+			ps.setString(7, hotel.getImgH());
+			ps.setDouble(8, hotel.getPrecio());
+			ps.setShort(9, hotel.getEstrellas());
+			ps.setBoolean(10, hotel.isPiscina());
+			ps.setBoolean(11, hotel.isSpa());
+			ps.setBoolean(12, hotel.isWifi());
+			ps.setBoolean(13, hotel.isParking());
+			ps.setBoolean(14, hotel.isRecomendado());
+			ps.setInt(15, hotel.getDescuento());
 			ps.execute();
 			ps.close();
-			System.out.println("Vehiculo añadido con éxito");
+			System.out.println("Hotel añadido con éxito");
 		} catch (SQLException e) {
-			System.out.println("Error al añadir vehículo" + e.getMessage());
+			System.out.println("Error al añadir hotel" + e.getMessage());
 			e.printStackTrace();
 		}
 	}
 
-	public Hotel buscarPorNombre(String nombre) {
-		Hotel v = null;
+	public List<Hotel> buscarHotelesConFiltros(String[] filters) {
+		  String sql = "SELECT * FROM hotel WHERE ";
+			for (String filter : filters) {
+				sql += "'" + filter + "'" + "= true && ";
+//			if (filter.equals("piscina"))
+//				sql += "piscina= true && ";
+//			else if (filter.equals("spa"))
+//				sql = "spa= true && ";
+//			else if (filter.equals("wifi"))
+//				sql = "wifi= true && ";
+//			else if (filter.equals("parking"))
+//				sql = "parking= true && ";
+//			else if (filter.equals("recomendado"))
+//				sql = "recomendado= true && ";
+			}
+			sql = sql.substring(0, sql.length() - 3);
+		List<Hotel> hs = new ArrayList<Hotel>();
 		try {
 			this.conn = DBConnection.getConnection();
 			Statement statement = conn.createStatement();
-			ResultSet res = statement.executeQuery("SELECT * FROM vehiculo WHERE nombre = " + "'" + nombre + "'");
-			while (res.next()) {
-				v = new Hotel(res.getInt("id"), res.getString("nombre"), res.getString("direccion"),
-						res.getString("ciudad"), res.getString("region"), res.getString("descripcion"),
-						res.getString("imgD"), res.getString("imgH"), res.getDouble("precio"),
-						res.getShort("estrellas"), res.getBoolean("piscina"), res.getBoolean("spa"),
-						res.getBoolean("wifi"), res.getBoolean("parking"), res.getBoolean("recomendado"),
-						res.getInt("descuento"));
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				Hotel h = new Hotel();
+				h.setId(rs.getInt(1));
+				h.setNombre(rs.getString(2));
+				h.setDireccion(rs.getString(3));
+				h.setCiudad(rs.getString(4));
+				h.setRegion(rs.getString(5));
+				h.setDescripcion(rs.getString(6));
+				h.setImgD(rs.getString(7));
+				h.setImgH(rs.getString(8));
+				h.setPrecio(rs.getDouble(9));
+				h.setEstrellas(rs.getShort(10));
+				h.setPiscina(rs.getBoolean(11));
+				h.setSpa(rs.getBoolean(12));
+				h.setWifi(rs.getBoolean(13));
+				h.setParking(rs.getBoolean(14));
+				h.setRecomendado(rs.getBoolean(15));
+				h.setDescuento(rs.getInt(16));
+				hs.add(h);
 			}
-			res.close();
+			statement.close();
+			rs.close();
+			rs.close();
 			statement.close();
 		} catch (SQLException e) {
-			System.out.println("Error en la base de datos ClientesDAO: " + e.getMessage());
+			System.out.println("Error en la base de datos Hotel: " + e.getMessage());
 			e.printStackTrace();
 		}
-		return v;
+		return hs;
 	}
+
 
 	public List<Hotel> buscarPorCiudadORegionONombre(String busqueda) {
 		String sql = "SELECT * FROM hotel WHERE nombre = " + "'" + busqueda + "'" + " OR ciudad = " + "'" + busqueda
@@ -100,33 +130,14 @@ public class HotelesDAO {
 			rs.close();
 			statement.close();
 		} catch (SQLException e) {
-			System.out.println("Error en la base de datos ClientesDAO: " + e.getMessage());
+			System.out.println("Error en la base de datos hotel: " + e.getMessage());
 			e.printStackTrace();
 		}
 		return vs;
 	}
 
-	public List<Hotel> verHotelesYFilter(String[] filters) {
-		String sql = "";
-		if (filters.length == 0) {
-			sql = "SELECT * FROM hotel";
-		} else if (filters.length > 0) {
-			sql = "SELECT * FROM hotel WHERE ";
-			for (String filter : filters) {
-				sql += "'" + filter + "'" + "= true && ";
-//			if (filter.equals("piscina"))
-//				sql += "piscina= true && ";
-//			else if (filter.equals("spa"))
-//				sql = "spa= true && ";
-//			else if (filter.equals("wifi"))
-//				sql = "wifi= true && ";
-//			else if (filter.equals("parking"))
-//				sql = "parking= true && ";
-//			else if (filter.equals("recomendado"))
-//				sql = "recomendado= true && ";
-			}
-			sql = sql.substring(0, sql.length() - 3);
-		}
+	public List<Hotel> verHoteles() {
+		  String sql = "SELECT * FROM hotel";
 		List<Hotel> hs = new ArrayList<Hotel>();
 		try {
 			this.conn = DBConnection.getConnection();
@@ -224,44 +235,40 @@ public class HotelesDAO {
 		return eliminar;
 	}
 
-	public boolean modificarVehiculos(Hotel vehiculo) {
-		boolean actualizar = false;
+	public void modificarHotel(Hotel hotel) {
 		String sqlUpdate = "UPDATE vehiculo SET matricula = ?, marca = ?, modelo = ?, año = ?, color = ? WHERE matricula = ?";
 		try {
 			conn = DBConnection.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sqlUpdate);
-			ps.setString(1, vehiculo.getMatricula());
-			ps.setString(2, vehiculo.getMarca());
-			ps.setString(3, vehiculo.getModelo());
-			ps.setInt(4, vehiculo.getAño());
-			ps.setString(5, vehiculo.getColor());
-			ps.setString(6, vehiculo.getMatricula());
+			ps.setString(1, hotel.getNombre());
+			ps.setString(2, hotel.getDireccion());
+			ps.setString(3, hotel.getCiudad());
+			ps.setString(4, hotel.getRegion());
+			ps.setString(5, hotel.getDescripcion());
+			ps.setString(6, hotel.getImgD());
+			ps.setString(7, hotel.getImgH());
+			ps.setDouble(8, hotel.getPrecio());
+			ps.setShort(9, hotel.getEstrellas());
+			ps.setBoolean(10, hotel.isPiscina());
+			ps.setBoolean(11, hotel.isSpa());
+			ps.setBoolean(12, hotel.isWifi());
+			ps.setBoolean(13, hotel.isParking());
+			ps.setBoolean(14, hotel.isRecomendado());
+			ps.setInt(15, hotel.getDescuento());
 			ps.execute();
 			ps.close();
-			actualizar = true;
-			System.out.println("Vehículo actualizado.");
+			System.out.println("Hotel modificado con éxito");
 		} catch (SQLException e) {
-			System.out.println("Error: método actualizar");
+			System.out.println("Error al modificar hotel" + e.getMessage());
 			e.printStackTrace();
 		}
-		return actualizar;
 	}
-
-	// en la app en el main es cuando debería cerrarse conn, no en cada método creo.
 	public static void main(String args[]) {
-//        Vehiculo v = new Vehiculo("JK987PJ", "Hyundai", "Kona", 2019, "azul");
-		HotelesDAO vs = new HotelesDAO();
-		// System.out.println(vs.buscarPorMatricula("JK987PJ"));
-//		System.out.println(vs.buscarPorMarcaOModelo("Hyundai"));
-//		System.out.println(vs.buscarPorMarcaModeloOAño("Hyundai"));
-//		System.out.println(vs.buscarPorMarcaModeloOAño("2019"));
-////        List<Vehiculo> vlist = vs.verVehiculos();
-//        vlist.stream().map(f->f.toString()).collect(Collectors.toList());
-		// System.out.println(vlist.stream().map(f->f.toString()).collect(Collectors.toList()));
+		HotelesDAO hoteles = new HotelesDAO();
 		OpHoteles opv = new OpHoteles();
-		for (Hotel v : opv.verVehiculos()) {
-			vs.insertarVehiculos(v);
+		for (Hotel h : opv.verVehiculos()) {
+			hoteles.insertarHotel(h);
 		}
-		vs.verVehiculos();
+		hoteles.verHoteles();
 	}
 }

@@ -53,7 +53,7 @@ public class MenuUsr {
 				break;
 			case 14:
 				System.out.println("Los clientes ordenados por edad son:");
-				System.out.println(cdao.cltesOrdenadosPorEdad());
+				System.out.println(cdao.usrsOrdenadosPorEdad());
 				break;
 			default:
 				break;
@@ -70,14 +70,14 @@ public class MenuUsr {
 			edad = scanner.nextInt();
 //			clte = new Usuario(dni, nombre, apellidos, edad);
 //			cdao.modificar(clte);
-			System.out.println("lista de clientes tras la modificacion: " + cdao.verClientes());
+			System.out.println("lista de clientes tras la modificacion: " + cdao.verUsuarios());
 
 			break;
 		case 8:
 			System.out.println("inserte el DNI del cliente a borrar");
 			dni = scanner.nextLine();
 			cdao.eliminar(dni);
-			System.out.println("lista de clientes tras la modificacion: " + cdao.verClientes());
+			System.out.println("lista de clientes tras la modificacion: " + cdao.verUsuarios());
 			break;
 		case 9:
 			OpFicheros opf1 = new OpFicheros();

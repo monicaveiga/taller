@@ -1,5 +1,6 @@
 package Beans;
 import java.io.Serializable;
+import java.sql.Array;
 import java.sql.Date;
 import java.sql.Time;
 
@@ -7,6 +8,7 @@ public class Reserva implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String usuario;
 	private String hotel;
+	private Array habitaciones;
 	private Date fecha;
 	private Time hora;
 	private boolean cancelada;
@@ -14,11 +16,12 @@ public class Reserva implements Serializable {
 	private double totalReserva;
 	public Reserva() {
 	}
-	public Reserva(String usuario, String hotel, Date fecha, Time hora, boolean cancelada, boolean completada,
+	public Reserva(String usuario, String hotel, Array habitaciones, Date fecha, Time hora, boolean cancelada, boolean completada,
 			double totalReserva) {
 		super();
 		this.usuario = usuario;
 		this.hotel = hotel;
+		this.habitaciones = habitaciones;
 		this.fecha = fecha;
 		this.hora = hora;
 		this.cancelada = cancelada;
@@ -26,10 +29,11 @@ public class Reserva implements Serializable {
 		this.totalReserva = totalReserva;
 	}
 	
-	public Reserva(String usuario, String hotel, Date fecha, Time hora, double totalReserva) {
+	public Reserva(String usuario, String hotel, Array habitaciones, Date fecha, Time hora, double totalReserva) {
 		super();
 		this.usuario = usuario;
 		this.hotel = hotel;
+		this.habitaciones = habitaciones;		
 		this.fecha = fecha;
 		this.hora = hora;
 		this.totalReserva = totalReserva;
@@ -76,9 +80,17 @@ public class Reserva implements Serializable {
 	public void setTotalReserva(double totalReserva) {
 		this.totalReserva = totalReserva;
 	}
+	public Array getHabitaciones() {
+		return habitaciones;
+	}
+	public void setHabitaciones(Array habitaciones) {
+		this.habitaciones = habitaciones;
+	}
 	@Override
 	public String toString() {
-		return "Reserva [usuario=" + usuario + ", hotel=" + hotel + ", fecha=" + fecha + ", hora=" + hora
-				+ ", cancelada=" + cancelada + ", completada=" + completada + ", totalReserva=" + totalReserva + "]";
+		return "Reserva [usuario=" + usuario + ", hotel=" + hotel + ", habitaciones=" + habitaciones + ", fecha="
+				+ fecha + ", hora=" + hora + ", cancelada=" + cancelada + ", completada=" + completada
+				+ ", totalReserva=" + totalReserva + "]";
 	}
+
 }

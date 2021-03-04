@@ -80,10 +80,10 @@ public class UsuariosDAO {
 		return cltes;
 	}
 
-	public List<Usuario> cltesOrdenadosPorEdad() {
+	public List<Usuario> usrsOrdenadosPorEdad() {
 		Statement stm = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM cliente ORDER BY edad";
+		String sql = "SELECT * FROM usuario ORDER BY fechaNacimiento DESC";
 		List<Usuario> cltes = new ArrayList<Usuario>();
 		try {
 			this.conn = DBConnection.getConnection();
@@ -106,10 +106,10 @@ public class UsuariosDAO {
 		return cltes;
 	}
 
-	public List<Usuario> verClientes() {
+	public List<Usuario> verUsuarios() {
 		Statement stm = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM cliente ORDER BY Apellidos";
+		String sql = "SELECT * FROM cliente ORDER BY apellidos";
 		List<Usuario> cltes = new ArrayList<Usuario>();
 		try {
 			this.conn = DBConnection.getConnection();
@@ -175,10 +175,10 @@ public class UsuariosDAO {
 	// en la app en el main es cuando debería cerrarse conn, no en cada método creo.
 	public static void main(String args[]) {
 		UsuariosDAO cltes = new UsuariosDAO();
-//		System.out.println(cltes.consultarPorNombreYApellidos("Jimena López López"));
-		System.out.println(cltes.cltesOrdenadosPorEdad());
-//		cltes.consultarPorDNI("22222222L");
-		// System.out.println(cltes.verClientes());
+		System.out.println(cltes.consultarPorNombreYApellidos("Jimena López López"));
+		System.out.println(cltes.usrsOrdenadosPorEdad());
+		cltes.consultarPorDNI("22222222L");
+		System.out.println(cltes.verUsuarios());
 //		List<Cliente> clist = cltes.verClientes();
 //		clist.stream().map(f -> f.toString()).collect(Collectors.toList());
 //		System.out.println(clist.stream().map(f->f.toString()).collect(Collectors.toList()));

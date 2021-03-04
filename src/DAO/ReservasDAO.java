@@ -6,13 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
-import Beans.Usuario;
 import Beans.Reserva;
-import operaciones.OpReservas;
+import Beans.Usuario;
 
 public class ReservasDAO {
 
@@ -203,7 +201,7 @@ public class ReservasDAO {
 		return cltes;
 	}
 
-	public Reserva reparacionMasBarata() {
+	public Reserva reservaMasBarata() {
 		Reserva rep = null;
 		try {
 			this.conn = DBConnection.getConnection();
@@ -211,7 +209,7 @@ public class ReservasDAO {
 			ResultSet res = statement.executeQuery(
 					"SELECT* FROM reparacion WHERE totalReparacion=(SELECT MIN(totalReparacion) FROM reparacion)");
 			while (res.next()) {
-				rep = new Reserva(res.getString("usuario"), res.getString("hotel"),
+				rep = new Reserva(res.getString("usuario"), res.getString("hotel"),res.getArray("habitaciones"),
 						res.getDate("fecha"), res.getTime("hora"), res.getDouble("totalReserva"));
 			}
 			res.close();
@@ -231,7 +229,7 @@ public class ReservasDAO {
 			ResultSet res = statement.executeQuery(
 					"SELECT* FROM reserva WHERE totalReserva=(SELECT MAX(totalReserva) FROM reserva)");
 			while (res.next()) {
-				rep = new Reserva(res.getString("usuario"), res.getString("hotel"),
+				rep = new Reserva(res.getString("usuario"), res.getString("hotel"), res.getArray("habitaciones"),
 						res.getDate("fecha"), res.getTime("hora"), res.getDouble("totalReserva"));
 			}
 			res.close();
@@ -242,28 +240,4 @@ public class ReservasDAO {
 		}
 		return rep;
 	}
-
-	// en la app en el main es cuando debería cerrarse conn, no en cada método creo.
-	public static void main(String args[]) {
-//		Reparacion r = new Reparacion("22222222L", "JK987PJ", "Faro fundido", Date.valueOf("2021-02-24"),
-//				Time.valueOf("12:00:00"), 150);
-		ReservasDAO re = new ReservasDAO();
-//		re.reparacionMasBarata();
-		System.out.println(re.clientesConMasReparaciones());
-		// re.insertarReparacion(r);
-		// re.eliminarReparacion(r);
-		// re.modificarReparacion(r);
-		// System.out.println(re.buscarPorCliente("22222222L"));
-		// System.out.println(re.buscarPorVehiculo("JK987PJ"));
-		// System.out.println(re.buscarPorFecha("2021-02-24"));
-//        List<Reparacion> rlist = re.verReparaciones();
-//        rlist.stream().map(f->f.toString()).collect(Collectors.toList());
-		// System.out.println(rlist.stream().map(f->f.toString()).collect(Collectors.toList()));
-//		OpReparaciones opr= new OpReparaciones();
-//		for (Reparacion rep : opr.verReparaciones()) {
-//			re.insertarReparacion(rep);
-//		}
-//		re.verReparaciones();
-	}
-
 }
