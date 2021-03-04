@@ -10,24 +10,23 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
-import Beans.Cliente;
-import Beans.Reparacion;
-import operaciones.OpReparaciones;
+import Beans.Usuario;
+import Beans.Reserva;
+import operaciones.OpReservas;
 
-public class ReparacionDAO {
+public class ReservasDAO {
 
 	private Connection conn = null;
 
-	public void insertarReparacion(Reparacion reparacion) {
+	public void insertarReparacion(Reserva reserva) {
 		try {
 			this.conn = DBConnection.getConnection();
 			PreparedStatement ps = conn.prepareStatement("INSERT INTO reparacion VALUES (?, ?, ?, ?, ?, ?)");
-			ps.setString(1, reparacion.getCliente());
-			ps.setString(2, reparacion.getVehiculo());
-			ps.setString(3, reparacion.getDescripcion());
-			ps.setDate(4, reparacion.getFecha());
-			ps.setTime(5, reparacion.getTiempo());
-			ps.setDouble(6, reparacion.getTotalReparacion());
+			ps.setString(1, reserva.getUsuario());
+			ps.setString(2, reserva.getHotel());
+			ps.setDate(4, reserva.getFecha());
+			ps.setTime(5, reserva.getHora());
+			ps.setDouble(6, reserva.getTotalReserva());
 			ps.execute();
 			ps.close();
 			System.out.println("Reparacion añadida con éxito");
@@ -37,15 +36,38 @@ public class ReparacionDAO {
 		}
 	}
 
-	public List<Reparacion> buscarPorCliente(String cliente) {
+	public List<Reserva> buscarPorCliente(String cliente) {
 		String sql = "SELECT * FROM reparacion WHERE cliente = " + "'" + cliente + "'" + " ORDER BY fecha";
-		List<Reparacion> reparaciones = new ArrayList<Reparacion>();
+		List<Reserva> reparaciones = new ArrayList<Reserva>();
 		try {
 			this.conn = DBConnection.getConnection();
 			Statement statement = conn.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
-				Reparacion r = new Reparacion();
+				Reserva r = new Reserva();
+				r.setFecha(Date.valueOf(rs.getString(1)));
+				reparaciones.add(r);
+			}
+			statement.close();
+			rs.close();
+			rs.close();
+			statement.close();
+		} catch (SQLException e) {
+			System.out.println("Error en la base de datos de reservas: " + e.getMessage());
+			e.printStackTrace();
+		}
+		return reparaciones;
+	}
+
+	public List<Reserva> buscarPorHotel(String hotel) {
+		String sql = "SELECT * FROM reserva WHERE hotel= " + "'" + hotel + "'" + " ORDER BY fecha";
+		List<Reserva> reparaciones = new ArrayList<Reserva>();
+		try {
+			this.conn = DBConnection.getConnection();
+			Statement statement = conn.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				Reserva r = new Reserva();
 				r.setFecha(Date.valueOf(rs.getString(1)));
 				reparaciones.add(r);
 			}
@@ -60,15 +82,15 @@ public class ReparacionDAO {
 		return reparaciones;
 	}
 
-	public List<Reparacion> buscarPorVehiculo(String vehiculo) {
-		String sql = "SELECT * FROM reparacion WHERE vehiculo = " + "'" + vehiculo + "'" + " ORDER BY fecha";
-		List<Reparacion> reparaciones = new ArrayList<Reparacion>();
+	public List<Reserva> buscarPorFecha(String fecha) {
+		String sql = "SELECT * FROM reserva WHERE fecha = " + "'" + Date.valueOf(fecha) + "'" + " ORDER BY fecha";
+		List<Reserva> reparaciones = new ArrayList<Reserva>();
 		try {
 			this.conn = DBConnection.getConnection();
 			Statement statement = conn.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
-				Reparacion r = new Reparacion();
+				Reserva r = new Reserva();
 				r.setFecha(Date.valueOf(rs.getString(1)));
 				reparaciones.add(r);
 			}
@@ -77,52 +99,28 @@ public class ReparacionDAO {
 			rs.close();
 			statement.close();
 		} catch (SQLException e) {
-			System.out.println("Error en la base de datos ReparacionDAO: " + e.getMessage());
+			System.out.println("Error en la base de datos de reservas: " + e.getMessage());
 			e.printStackTrace();
 		}
 		return reparaciones;
 	}
 
-	public List<Reparacion> buscarPorFecha(String fecha) {
-		String sql = "SELECT * FROM reparacion WHERE fecha = " + "'" + Date.valueOf(fecha) + "'" + " ORDER BY fecha";
-		List<Reparacion> reparaciones = new ArrayList<Reparacion>();
-		try {
-			this.conn = DBConnection.getConnection();
-			Statement statement = conn.createStatement();
-			ResultSet rs = statement.executeQuery(sql);
-			while (rs.next()) {
-				Reparacion r = new Reparacion();
-				r.setFecha(Date.valueOf(rs.getString(1)));
-				reparaciones.add(r);
-			}
-			statement.close();
-			rs.close();
-			rs.close();
-			statement.close();
-		} catch (SQLException e) {
-			System.out.println("Error en la base de datos ReparacionDAO: " + e.getMessage());
-			e.printStackTrace();
-		}
-		return reparaciones;
-	}
-
-	public List<Reparacion> verReparaciones() {
+	public List<Reserva> verReservas() {
 		Statement stm = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM reparacion ORDER BY vehiculo";
-		List<Reparacion> reparacion = new ArrayList<Reparacion>();
+		String sql = "SELECT * FROM reserva ORDER BY hotel";
+		List<Reserva> reparacion = new ArrayList<Reserva>();
 		try {
 			this.conn = DBConnection.getConnection();
 			stm = conn.createStatement();
 			rs = stm.executeQuery(sql);
 			while (rs.next()) {
-				Reparacion r = new Reparacion();
-				r.setCliente(rs.getString(1));
-				r.setVehiculo(rs.getString(2));
-				r.setDescripcion(rs.getString(3));
+				Reserva r = new Reserva();
+				r.setUsuario(rs.getString(1));
+				r.setHotel(rs.getString(2));
 				r.setFecha(rs.getDate(4));
-				r.setTiempo(rs.getTime(5));
-				r.setTotalReparacion(rs.getDouble(6));
+				r.setHora(rs.getTime(5));
+				r.setTotalReserva(rs.getDouble(6));
 				reparacion.add(r);
 			}
 			stm.close();
@@ -135,13 +133,13 @@ public class ReparacionDAO {
 		return reparacion;
 	}
 
-	public boolean eliminarReparacion(Reparacion reparacion) {
+	public boolean eliminarReparacion(Reserva reparacion) {
 		boolean eliminar = false;
 		String sql = "DELETE FROM reparacion WHERE vehiculo = ?";
 		try {
 			conn = DBConnection.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, reparacion.getVehiculo());
+			ps.setString(1, reparacion.getHotel());
 			ps.execute();
 			ps.close();
 			eliminar = true;
@@ -153,20 +151,19 @@ public class ReparacionDAO {
 		return eliminar;
 	}
 
-	public boolean modificarReparacion(Reparacion reparacion) {
+	public boolean modificarReparacion(Reserva reparacion) {
 		boolean actualizar = false;
 		try {
 			conn = DBConnection.getConnection();
 			// PreparedStatement ps = conn.prepareStatement(sql);
 			PreparedStatement ps = conn.prepareStatement(
 					"UPDATE reparacion SET cliente = ?, vehiculo = ?, descripcion = ?, fecha = ?, tiempo = ?, totalReparacion = ? WHERE vehiculo = ?");
-			ps.setString(1, reparacion.getCliente());
-			ps.setString(2, reparacion.getVehiculo());
-			ps.setString(3, reparacion.getDescripcion());
+			ps.setString(1, reparacion.getUsuario());
+			ps.setString(2, reparacion.getHotel());
 			ps.setDate(4, reparacion.getFecha());
-			ps.setTime(5, reparacion.getTiempo());
-			ps.setDouble(6, reparacion.getTotalReparacion());
-			ps.setString(7, reparacion.getVehiculo());
+			ps.setTime(5, reparacion.getHora());
+			ps.setDouble(6, reparacion.getTotalReserva());
+			ps.setString(7, reparacion.getHotel());
 			ps.execute();
 			ps.close();
 			actualizar = true;
@@ -178,22 +175,21 @@ public class ReparacionDAO {
 		return actualizar;
 	}
 
-	public List<Cliente> clientesConMasReparaciones() {
-		String sqlQuery = "SELECT * FROM cliente as c JOIN reparacion as r on c.dni = r.cliente GROUP BY cliente ORDER BY COUNT(*) DESC LIMIT 10";
+	public List<Usuario> clientesConMasReparaciones() {
 		String sqlQuery1 = "SELECT c.*, COUNT(r.cliente) AS NumReparaciones FROM cliente as c LEFT JOIN reparacion as r ON c.dni = r.cliente GROUP BY r.cliente ORDER BY NumReparaciones DESC LIMIT 10";
 		Statement stm = null;
 		ResultSet rs = null;
-		List<Cliente> cltes = new ArrayList<Cliente>();
+		List<Usuario> cltes = new ArrayList<Usuario>();
 		try {
 			this.conn = DBConnection.getConnection();
 			stm = conn.createStatement();
 			rs = stm.executeQuery(sqlQuery1);
 			while (rs.next()) {
-				Cliente c = new Cliente();
-				c.setDNI(rs.getString(1));
+				Usuario c = new Usuario();
+				c.setEmail(rs.getString(1));
 				c.setNombre(rs.getString(2));
 				c.setApellidos(rs.getString(3));
-				c.setEdad(rs.getInt(4));
+				c.setDireccion(rs.getString(4));
 				cltes.add(c);
 			}
 			stm.close();
@@ -207,36 +203,36 @@ public class ReparacionDAO {
 		return cltes;
 	}
 
-	public Reparacion reparacionMasBarata() {
-		Reparacion rep = null;
+	public Reserva reparacionMasBarata() {
+		Reserva rep = null;
 		try {
 			this.conn = DBConnection.getConnection();
 			Statement statement = conn.createStatement();
 			ResultSet res = statement.executeQuery(
 					"SELECT* FROM reparacion WHERE totalReparacion=(SELECT MIN(totalReparacion) FROM reparacion)");
 			while (res.next()) {
-				rep = new Reparacion(res.getString("cliente"), res.getString("vehiculo"), res.getString("descripcion"),
-						res.getDate("fecha"), res.getTime("tiempo"), res.getDouble("totalReparacion"));
+				rep = new Reserva(res.getString("usuario"), res.getString("hotel"),
+						res.getDate("fecha"), res.getTime("hora"), res.getDouble("totalReserva"));
 			}
 			res.close();
 			statement.close();
 		} catch (SQLException e) {
-			System.out.println("Error en la base de datos ReparacionDAO: " + e.getMessage());
+			System.out.println("Error en la base de datos Reserva: " + e.getMessage());
 			e.printStackTrace();
 		}
 		return rep;
 	}
 
-	public Reparacion reparacionMasCostosa() {
-		Reparacion rep = null;
+	public Reserva reparacionMasCostosa() {
+		Reserva rep = null;
 		try {
 			this.conn = DBConnection.getConnection();
 			Statement statement = conn.createStatement();
 			ResultSet res = statement.executeQuery(
-					"SELECT* FROM reparacion WHERE totalReparacion=(SELECT MAX(totalReparacion) FROM reparacion)");
+					"SELECT* FROM reserva WHERE totalReserva=(SELECT MAX(totalReserva) FROM reserva)");
 			while (res.next()) {
-				rep = new Reparacion(res.getString("cliente"), res.getString("vehiculo"), res.getString("descripcion"),
-						res.getDate("fecha"), res.getTime("tiempo"), res.getDouble("totalReparacion"));
+				rep = new Reserva(res.getString("usuario"), res.getString("hotel"),
+						res.getDate("fecha"), res.getTime("hora"), res.getDouble("totalReserva"));
 			}
 			res.close();
 			statement.close();
@@ -251,7 +247,7 @@ public class ReparacionDAO {
 	public static void main(String args[]) {
 //		Reparacion r = new Reparacion("22222222L", "JK987PJ", "Faro fundido", Date.valueOf("2021-02-24"),
 //				Time.valueOf("12:00:00"), 150);
-		ReparacionDAO re = new ReparacionDAO();
+		ReservasDAO re = new ReservasDAO();
 //		re.reparacionMasBarata();
 		System.out.println(re.clientesConMasReparaciones());
 		// re.insertarReparacion(r);

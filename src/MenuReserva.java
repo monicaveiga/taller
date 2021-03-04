@@ -2,22 +2,22 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.Scanner;
 
-import Beans.Reparacion;
-import DAO.ReparacionDAO;
+import Beans.Reserva;
+import DAO.ReservasDAO;
 import operaciones.OpFicheros;
 
-public class MenuRep {
+public class MenuReserva {
 public static void case3(int operation) {
 	Scanner scanner = new Scanner(System.in);
 //	OpReparaciones opr = new OpReparaciones();
-	ReparacionDAO rdao = new ReparacionDAO();
+	ReservasDAO rdao = new ReservasDAO();
 	String cliente = null;
 	String vehiculo = null;
 	String descripcion = null;
 	Date fecha;
 	Time tiempo;
 	double totalReparacion;
-	Reparacion r;
+	Reserva r;
 	switch (operation) {
 	case 5:
 		System.out.println("inserte el dni del cliente");
@@ -33,8 +33,8 @@ public static void case3(int operation) {
 		tiempo = Time.valueOf(scanner.next());
 		System.out.println("inserte el total de la reparacion");
 		totalReparacion = scanner.nextDouble();
-		r = new Reparacion(cliente, vehiculo, descripcion, fecha, tiempo, totalReparacion);
-		rdao.insertarReparacion(r);
+//		r = new Reserva(cliente, vehiculo, descripcion, fecha, tiempo, totalReparacion);
+//		rdao.insertarReparacion(r);
 		break;
 	case 6:
 		System.out.println(
@@ -49,7 +49,7 @@ public static void case3(int operation) {
 		case 12:
 			System.out.println("inserte la matricula del vehiculo de la reparacion a buscar");
 			vehiculo = scanner.next();
-			System.out.println(rdao.buscarPorVehiculo(vehiculo));
+			System.out.println(rdao.buscarPorHotel(vehiculo));
 			break;
 		case 13:
 			System.out.println("inserte la fecha de la reparacion a buscar");
@@ -82,17 +82,17 @@ public static void case3(int operation) {
 		tiempo = Time.valueOf(scanner.next());
 		System.out.println("inserte el total de la reparacion");
 		totalReparacion = scanner.nextDouble();
-		r = new Reparacion(cliente, vehiculo, descripcion, fecha, tiempo, totalReparacion);
-		rdao.modificarReparacion(r);
+//		r = new Reserva(cliente, vehiculo, descripcion, fecha, tiempo, totalReparacion);
+//		rdao.modificarReparacion(r);
 		break;
 	case 8:
 		OpFicheros opf = new OpFicheros();
-		opf.guardarReparaciones();
+		opf.guardarReservas();
 		System.out.println("Datos de las reparaciones guardadas correctamente.");
 		break;
 	case 9:
 		OpFicheros opf1 = new OpFicheros();
-		opf1.cargarReparaciones();
+		opf1.cargarReservas();
 		break;
 	default:
 		scanner.close();

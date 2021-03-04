@@ -1,20 +1,20 @@
 import java.util.Scanner;
 
-import Beans.Vehiculo;
-import DAO.VehiculoDAO;
+import Beans.Hotel;
+import DAO.HotelesDAO;
 import operaciones.OpFicheros;
 
-public class MenuVehiculo {
+public class MenuHotel {
 	public static void case2(int operation) {
 		Scanner scanner = new Scanner(System.in);
 //		OpVehiculos opv = new OpVehiculos();
-		VehiculoDAO vdao = new VehiculoDAO();
+		HotelesDAO vdao = new HotelesDAO();
 		String modelo = null;
 		String matricula = null;
 		String marca = null;
 		int año = 0;
 		String color = null;
-		Vehiculo v;
+		Hotel v;
 		switch (operation) {
 		case 5:
 			System.out.println("inserte la matricula del vehiculo");
@@ -28,8 +28,8 @@ public class MenuVehiculo {
 			System.out.println("inserte el color del vehiculo");
 			scanner.nextLine();
 			color = scanner.nextLine();
-			v = new Vehiculo(matricula, modelo, marca, año, color);
-			vdao.insertarVehiculos(v);
+//			v = new Hotel(matricula, modelo, marca, año, color);
+//			vdao.insertarVehiculos(v);
 			break;
 		case 6:
 			System.out.println(
@@ -73,8 +73,8 @@ public class MenuVehiculo {
 			System.out.println("inserte el color del vehiculo");
 			scanner.nextLine();
 			color = scanner.nextLine();
-			v = new Vehiculo(matricula, modelo, marca, año, color);
-			vdao.modificarVehiculos(v);
+//			v = new Hotel(matricula, modelo, marca, año, color);
+//			vdao.modificarVehiculos(v);
 			break;
 		case 8:
 			System.out.println("inserte la matricula del vehiculo a borrar");
@@ -83,12 +83,12 @@ public class MenuVehiculo {
 			break;
 		case 9:
 			OpFicheros opf1 = new OpFicheros();
-			opf1.guardarVehiculos();
+			opf1.guardarHoteles();
 			System.out.println("Datos de los vehículos guardados correctamente.");
 			break;
 		case 10:
 			OpFicheros opf = new OpFicheros();
-			opf.cargarVehiculos();
+			opf.cargarHoteles();
 			break;
 		default:
 			scanner.close();

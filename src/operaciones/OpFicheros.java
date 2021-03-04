@@ -7,9 +7,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import Beans.Cliente;
-import Beans.Reparacion;
-import Beans.Vehiculo;
+import Beans.Usuario;
+import Beans.Reserva;
+import Beans.Hotel;
 
 public class OpFicheros {
 	public static void main(String[] args) {
@@ -17,69 +17,69 @@ public class OpFicheros {
 //	fi.escribirClientes();
 //	fi.escribirReparaciones();
 //	fi.escribirVehiculos();
-	fi.guardarClientes();
+	fi.guardarUsuarios();
 //	fi.leerReparaciones();
-	fi.guardarReparaciones();
+	fi.guardarReservas();
 	}
-	OpClientes opc = new OpClientes();
-	OpReparaciones opr = new OpReparaciones();
-	OpVehiculos opv = new OpVehiculos();
+	OpUsuarios opc = new OpUsuarios();
+	OpReservas opr = new OpReservas();
+	OpHoteles opv = new OpHoteles();
 
-	public void guardarClientes() {
+	public void guardarUsuarios() {
 		FileInputStream in = null;
 		byte[] buffer = new byte[4096];
 		try {
-			in = new FileInputStream("datosCltes.txt");
+			in = new FileInputStream("datosUsrs.txt");
 			int leerDatos = 0;
 			do {
 				leerDatos = in.read(buffer);
 			}while(leerDatos!=-1);
 			ObjectInputStream leerObj = new ObjectInputStream(in);
-			ArrayList<Cliente> cltes= (ArrayList<Cliente>) leerObj.readObject();
+			ArrayList<Usuario> cltes= (ArrayList<Usuario>) leerObj.readObject();
 			leerObj.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 	}
-	public void guardarVehiculos() {
+	public void guardarHoteles() {
 		FileInputStream in = null;
 		byte[] buffer = new byte[4096];
 		try {
-			in = new FileInputStream("datosVehiculos.txt");
+			in = new FileInputStream("datosHoteles.txt");
 			int leerDatos = 0;
 			do {
 				leerDatos = in.read(buffer);
 			}while(leerDatos!=-1);
 			ObjectInputStream leerObj = new ObjectInputStream(in);
-			ArrayList<Vehiculo> vclos= (ArrayList<Vehiculo>) leerObj.readObject();
+			ArrayList<Hotel> vclos= (ArrayList<Hotel>) leerObj.readObject();
 			leerObj.close();
 			System.out.println(vclos.toString());
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 	}
-	public void guardarReparaciones() {
+	public void guardarReservas() {
 		FileInputStream in = null;
 		byte[] buffer = new byte[4096];
 		try {
-			in = new FileInputStream("datosReps.txt");
+			in = new FileInputStream("datosRes.txt");
 			int leerDatos = 0;
 			do {
 				leerDatos = in.read(buffer);
 			}while(leerDatos!=-1);
 			ObjectInputStream leerObj = new ObjectInputStream(in);
-			ArrayList<Reparacion> reps= (ArrayList<Reparacion>) leerObj.readObject();
+			ArrayList<Reserva> reps= (ArrayList<Reserva>) leerObj.readObject();
 			leerObj.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 	}
-	public void cargarClientes() {
+	public void cargarUsuarios() {
 		byte[] buffer = new byte[4096];
 		try {
-			FileOutputStream escribirCltes= new FileOutputStream("datosCltes.txt");
+			FileOutputStream escribirCltes= new FileOutputStream("datosUsrs.txt");
 			ObjectOutputStream out = new ObjectOutputStream(escribirCltes);
-			out.writeObject(opc.cltesOrdenadosPorEdad());
+			out.writeObject(opc.verClientes());
 			out.write(buffer);
 			out.flush();
 			out.close();
@@ -88,10 +88,10 @@ public class OpFicheros {
 		}
 	}
 
-	public void cargarVehiculos() {
+	public void cargarHoteles() {
 		byte[] buffer = new byte[4096];
 		try {
-			FileOutputStream escribirVehiculos = new FileOutputStream("datosVehiculos.txt");
+			FileOutputStream escribirVehiculos = new FileOutputStream("datosHoteles.txt");
 			ObjectOutputStream out = new ObjectOutputStream(escribirVehiculos);
 			out.writeObject(opv.verVehiculos());
 			out.write(buffer);
@@ -101,10 +101,10 @@ public class OpFicheros {
 			e.printStackTrace();
 		}
 	}
-	public void cargarReparaciones() {
+	public void cargarReservas() {
 		byte[] buffer = new byte[4096];
 		try {
-			FileOutputStream escribirReps= new FileOutputStream("datosReps.txt");
+			FileOutputStream escribirReps= new FileOutputStream("datosRes.txt");
 			ObjectOutputStream out = new ObjectOutputStream(escribirReps);
 			out.writeObject(opr.verReparaciones());
 			out.write(buffer);

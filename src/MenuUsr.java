@@ -1,33 +1,33 @@
 import java.util.Scanner;
 
-import Beans.Cliente;
-import DAO.ClientesDAO;
-import DAO.ReparacionDAO;
+import Beans.Usuario;
+import DAO.UsuariosDAO;
+import DAO.ReservasDAO;
 import operaciones.OpFicheros;
 
-public class MenuClte {
+public class MenuUsr {
 
 	public static void case1(int operation) {
 //		OpClientes opcliente = new OpClientes();
-		ClientesDAO cdao = new ClientesDAO();
+		UsuariosDAO cdao = new UsuariosDAO();
 		String dni = null;
 		String nombre = null;
 		String apellidos = null;
 		int edad = 0;
-		Cliente clte;
+		Usuario clte;
 		Scanner scanner = new Scanner(System.in);
 		switch (operation) {
 		case 5:
-			System.out.println("inserte el DNI del cliente");
+			System.out.println("inserte el email del cliente");
 			dni = scanner.next();
 			System.out.println("inserte el nombre del cliente");
 			nombre = scanner.next();
 			System.out.println("inserte los apellidos del cliente");
 			apellidos = scanner.nextLine();
-			System.out.println("inserte la edad del cliente");
+			System.out.println("inserte la direccion del cliente");
 			edad = scanner.nextInt();
-			clte = new Cliente(dni, nombre, apellidos, edad);
-			cdao.insertarClientes(clte);
+//			clte = new Usuario(dni, nombre, apellidos, edad);
+//			cdao.insertarClientes(clte);
 			break;
 		case 6:
 			System.out.println("Inserta 11 para buscar por DNI, 12 para para buscar por nombre y apellido,\n 13 para ver los 10 clientes con más reparaciones y 14 para ver los cliente ordenador por edad");
@@ -48,7 +48,7 @@ public class MenuClte {
 				break;
 			case 13:
 //				OpReparaciones oprep =new OpReparaciones();
-				ReparacionDAO rdao = new ReparacionDAO();
+				ReservasDAO rdao = new ReservasDAO();
 				System.out.println("Los 10 clientes con más reparaciones son"+rdao.clientesConMasReparaciones());
 				break;
 			case 14:
@@ -68,8 +68,8 @@ public class MenuClte {
 			apellidos = scanner.nextLine();
 			System.out.println("inserte la edad del cliente");
 			edad = scanner.nextInt();
-			clte = new Cliente(dni, nombre, apellidos, edad);
-			cdao.modificar(clte);
+//			clte = new Usuario(dni, nombre, apellidos, edad);
+//			cdao.modificar(clte);
 			System.out.println("lista de clientes tras la modificacion: " + cdao.verClientes());
 
 			break;
@@ -81,12 +81,12 @@ public class MenuClte {
 			break;
 		case 9:
 			OpFicheros opf1 = new OpFicheros();
-			opf1.guardarClientes();
+			opf1.guardarUsuarios();
 			System.out.println("Datos de los clientes guardados correctamente.");
 			break;
 		case 10:
 			OpFicheros opf = new OpFicheros();
-			opf.cargarClientes();
+			opf.cargarUsuarios();
 			break;
 		default:
 			scanner.close();

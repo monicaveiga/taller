@@ -33,13 +33,13 @@ public class Main {
 			} else {
 				switch (table) {
 				case 1:
-					MenuClte.case1(operation);
+					MenuUsr.case1(operation);
 					break;
 				case 2:
-					MenuVehiculo.case2(operation);
+					MenuHotel.case2(operation);
 					break;
 				case 3:
-					MenuRep.case3(operation);
+					MenuReserva.case3(operation);
 					break;
 				default:
 					break;
